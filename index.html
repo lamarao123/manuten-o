@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteServiçe Ltd</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            overflow-x: hidden;
+            background-color: #f0f4f8;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: linear-gradient(135deg, #0c2e5c 0%, #1a4680 100%);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 26px;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+        
+        .nav {
+            display: flex;
+        }
+        
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 600;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .nav a:hover {
+            background-color: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* Carrossel */
+        .carousel-container {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .carousel {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 0.6s ease-in-out;
+        }
+        
+        .carousel-slide {
+            width: 25%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .slide1 {
+            background: linear-gradient(rgba(13, 41, 77, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1588702547919-26089e690ecc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&h=500&q=80') center/cover;
+        }
+        
+        .slide2 {
+            background: linear-gradient(rgba(13, 41, 77, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&h=500&q=80') center/cover;
+        }
+        
+        .slide3 {
+            background: linear-gradient(rgba(13, 41, 77, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1573152958734-1922c188fba3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&h=500&q=80') center/cover;
+        }
+        
+        .slide4 {
+            background: linear-gradient(rgba(13, 41, 77, 0.7), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1563018232-1beeb5e4a176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&h=500&q=80') center/cover;
+        }
+        
+        .slide-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 80%;
+        }
+        
+        .slide-content h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .slide-content p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .indicator.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+        
+        .carousel-arrows {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .arrow {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s;
+        }
+        
+        .arrow:hover {
+            background-color: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+        
+        /* Serviços */
+        .services {
+            padding: 70px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, #f0f4f8 0%, #e0eaf5 100%);
+        }
+        
+        .section-title {
+            font-size: 38px;
+            color: #0c2e5c;
+            margin-bottom: 60px;
+            position: relative;
+            font-weight: 700;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, #0c2e5c, #4b89dc);
+            border-radius: 2px;
+        }
+        
+        .service-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .service-card {
+            width: 220px;
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .service-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0c2e5c, #4b89dc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+        
+        .service-icon svg {
+            fill: white;
+        }
+        
+        .service-card h3 {
+            color: #0c2e5c;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .service-card p {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Formulário de Contato */
+        .contact-section {
+            padding: 70px 5%;
+            background: linear-gradient(135deg, #0c2e5c 0%, #1a4680 100%);
+            color: white;
+        }
+        
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 40px;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-info h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .contact-info h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100px;
+            height: 3px;
+            background-color: #4b89dc;
+        }
+        
+        .contact-info p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .contact-info ul {
+            list-style: none;
+        }
+        
+        .contact-info li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-info li svg {
+            margin-right: 10px;
+            min-width: 24px;
+        }
+        
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .contact-form h3 {
+            font-size: 24px;
+            color: #0c2e5c;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #4b89dc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 137, 220, 0.2);
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(90deg, #0c2e5c, #4b89dc);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(90deg, #0a2548, #3a6fbf);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .whatsapp-btn svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+        
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .service-card {
+            animation: fadeIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Quem Somos */
+        .about-section {
+            padding: 70px 5%;
+            background-color: #f7f9fc;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .about-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 25px;
+        }
+        
+        .about-values {
+            margin-top: 30px;
+        }
+        
+        .value-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .value-icon {
+            margin-right: 15px;
+            min-width: 50px;
+        }
+        
+        .value-info h4 {
+            font-size: 18px;
+            color: #0c2e5c;
+            margin-bottom: 5px;
+        }
+        
+        .value-info p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #0c2e5c 0%, #1a4680 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav a {
+                margin: 5px;
+                font-size: 14px;
+            }
+            
+            .slide-content h2 {
+                font-size: 32px;
+            }
+            
+            .slide-content p {
+                font-size: 16px;
+                padding: 0 20px;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+            }
+            
+            .about-grid {
+                flex-direction: column;
+            }
+            
+            .stat-number {
+                font-size: 24px;
+            }
+            
+            .stat-label {
+                font-size: 12px;
+            }
+            
+            .whatsapp-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-btn svg {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <h1>NoteServiçe Ltd</h1>
+        </div>
+        <nav class="nav">
+           
+            <a href="#Home">Home</a>
+            <a href="#services">Serviços</a>
+            <a href="#about">Quem somos</a>
+            <a href="#contact">Contato</a>
+        </nav>
+    </header>
+    
+    <!-- Carrossel -->
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-slide slide1">
+                <div class="slide-content">
+                    <h2>Seu smartphone em boas mãos!</h2>
+                    <p>Aqui você encontra serviços especializados no reparo de smartphones.</p>
+                </div>
+            </div>
+            
+            <div class="carousel-slide slide2">
+                <div class="slide-content">
+                    <h2>Assistência técnica de qualidade</h2>
+                    <p>Nossos profissionais são treinados para resolver qualquer problema.</p>
+                </div>
+            </div>
+            
+            <div class="carousel-slide slide3">
+                <div class="slide-content">
+                    <h2>Melhor custo-benefício</h2>
+                    <p>Soluções eficientes com preços justos para todos os dispositivos.</p>
+                </div>
+            </div>
+            
+            <div class="carousel-slide slide 4">
+                <div class="slide-content">
+                    <h2>Garantia em todos os serviços</h2>
+                    <p>Confiança e segurança para nossos clientes em cada reparo.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-indicators">
+            <div class="indicator active" data-slide="0"></div>
+            <div class="indicator" data-slide="1"></div>
+            <div class="indicator" data-slide="2"></div>
+            <div class="indicator" data-slide="3"></div>
+            <div class="indicator" data-slide="2"></div>
+        </div>
+        
+        <div class="carousel-arrows">
+            <div class="arrow prev">‹</div>
+            <div class="arrow next">›</div>
+        </div>
+    </div>
+    
+    <!-- Serviços -->
+    <section id="services" class="services">
+        <h2 class="section-title">Nossos Serviços</h2>
+        
+        <div class="service-cards">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="45" height="45">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12z"/>
+                        <path d="M12 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+                    </svg>
+                </div>
+                <h3>Notebooks</h3>
+                <p>Backup, formatação, troca de peças e componentes, reparo de placa-mãe</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="45" height="45">
+                        <path d="M17 1H7c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-2-2-2zm0 18H7V5h10v14z"/>
+                        <path d="M12 17h1v2h-1z"/>
+                    </svg>
+                </div>
+                <h3>Smartphones</h3>
+                <p>Troca de tela e bateria, reparos, desbloqueio, recuperação de dados</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="45" height="45">
+                        <path d="M21 4H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H3V6h18v12z"/>
+                    </svg>
+                </div>
+                <h3>Tablets</h3>
+                <p>Troca de tela e bateria, reparos, atualização de software</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="45" height="45">
+                        <path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7l-2 3v1h8v-1l-2-3h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/>
+                    </svg>
+                </div>
+                <h3>PCs e Macs</h3>
+                <p>Backup, formatação, troca de peças, upgrade de hardware</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Fale Conosco -->
+    <section id="contact" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Fale Conosco</h2>
+                <p>Entre em contato conosco para agendar um serviço ou tirar suas dúvidas. Nossa equipe está pronta para te atender da melhor forma possível.</p>
+                
+                <ul>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Av. Tecnologia, 1234 - Centro
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        contato@noteservice.com
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        (11) 3456-7890
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                        Horário: Seg-Sex 9h às 18h | Sáb 9h às 13h
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="contact-form">
+                <h3>Envie sua mensagem</h3>
+                <form>
+                    <div class="form-group">
+                        <label for="name">Nome</label>
+                        <input type="text" id="name" class="form-control" placeholder="Seu nome completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="seu.email@exemplo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Telefone</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="(00) 00000-0000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="service">Serviço de interesse</label>
+                        <select id="service" class="form-control">
+                            <option value="">Selecione um serviço</option>
+                            <option value="notebook">Reparo de Notebook</option>
+                            <option value="smartphone">Reparo de Smartphone</option>
+                            <option value="tablet">Reparo de Tablet</option>
+                            <option value="pc">Reparo de PC/Mac</option>
+                            <option value="other">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Mensagem</label>
+                        <textarea id="message" class="form-control" placeholder="Descreva o que você precisa..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Seção Quem Somos -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-content">
+                <h2 class="section-title">Quem Somos</h2>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p class="about-description">
+                            A <strong>NoteServiçe Ltd</strong> é uma empresa especializada em soluções para dispositivos eletrônicos, com mais de 10 anos de experiência no mercado. Nossa missão é oferecer serviços de qualidade com preços justos, sempre priorizando a satisfação dos nossos clientes.
+                        </p>
+                        <p class="about-description">
+                            Contamos com uma equipe altamente qualificada, técnicos certificados e utilizamos peças originais em todos os nossos reparos. Nossa estrutura moderna e equipamentos de última geração garantem diagnósticos precisos e soluções eficientes.
+                        </p>
+                        <div class="about-values">
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#0c2e5c">
+                                        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
+                                    </svg>
+                                </div>
+                                <div class="value-info">
+                                    <h4>Qualidade</h4>
+                                    <p>Excelência em cada reparo que realizamos</p>
+                                </div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#0c2e5c">
+                                        <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                                    </svg>
+                                </div>
+                                <div class="value-info">
+                                    <h4>Eficiência</h4>
+                                    <p>Soluções rápidas sem comprometer a qualidade</p>
+                                </div>
+                            </div>
+                            <div class="value-item">
+                                <div class="value-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="#0c2e5c">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                    </svg>
+                                </div>
+                                <div class="value-info">
+                                    <h4>Transparência</h4>
+                                    <p>Comunicação clara em todas as etapas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1577375729152-4c8b5fcda381?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&h=600&q=80" alt="Equipe NoteServiçe">
+                        <div class="stats-container">
+                            <div class="stat-item">
+                                <div class="stat-number">10+</div>
+                                <div class="stat-label">Anos de experiência</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">50k+</div>
+                                <div class="stat-label">Clientes satisfeitos</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">99%</div>
+                                <div class="stat-label">Taxa de sucesso</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- WhatsApp Button -->
+    <div class="whatsapp-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.116-.177.24-.076.458.101.218.449.904 1.004 1.319 1.031.615 1.551.816 1.805.874.173.041.375.025.505-.099.159-.151.346-.35.505-.533.159-.181.346-.151.577-.099.231.058.981.46 1.15.547.173.087.288.131.332.21.043.068.043.39-.101.77z"/>
+        </svg>
+    </div>
+
+    <script>
+        // Carrossel funcionando
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentSlide = 0;
+            const slides = document.querySelector('.carousel');
+            const indicators = document.querySelectorAll('.indicator');
+            const totalSlides = document.querySelectorAll('.carousel-slide').length;
+            
+            // Função para atualizar o slide
+            function updateSlide() {
+                slides.style.transform = `translateX(-${currentSlide * 25}%)`;
+                
+                // Atualizar indicadores
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Event listeners para botões
+            document.querySelector('.next').addEventListener('click', function() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlide();
+            });
+            
+            document.querySelector('.prev').addEventListener('click', function() {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlide();
+            });
+            
+            // Event listeners para indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    currentSlide = index;
+                    updateSlide();
+                });
+            });
+            
+            // Auto-play do carrossel
+            setInterval(function() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlide();
+            }, 5000);
+            
+            // WhatsApp button
+            document.querySelector('.whatsapp-btn').addEventListener('click', function() {
+                window.open('https://wa.me/5511934567890', '_blank');
+            });
+        });
+    </script>
+</body>
+</html>
